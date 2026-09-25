@@ -1,6 +1,15 @@
 # RetroDoc
 
-A multimodal RAG (retrieval-augmented generation) app for PDFs. Upload PDFs, ask questions, and get answers grounded in both the **text** and the **images** inside your documents.
+**Your retro document analyzer.** RetroDoc lets you search and analyze your PDFs in plain English. It reads both the text and the pictures inside them (diagrams, charts, scanned pages), so answers can draw on either.
+
+## What it does
+
+- **Builds a searchable library.** Upload PDFs and RetroDoc indexes their text, their images, and any text inside those images (using OCR).
+- **Answers from your documents only.** Type something like *"How does multi-head attention work?"* or *"Summarize the results table"*. RetroDoc finds the most relevant passages and images and writes an answer based only on them.
+- **Shows its sources.** Every answer lists the passages it used, with file name and page number, and shows the relevant images with a short analysis of each. Irrelevant images are filtered out.
+- **Lets you pick which documents to search.** Enable or disable individual files in the sidebar, or delete them from the library.
+
+It's built as a multimodal RAG (retrieval-augmented generation) system in two parts:
 
 - **retro-frontend:** React 19 + Vite + Tailwind, with a retro-styled UI
 - **retro-api:** FastAPI + Chroma + CLIP + Tesseract, answering with a vision-language model on OpenRouter
@@ -14,9 +23,9 @@ A multimodal RAG (retrieval-augmented generation) app for PDFs. Upload PDFs, ask
    - run through **Tesseract OCR**, with the OCR text added to the text store
 3. Text chunks and OCR text are embedded with **nomic-embed-text-v1.5** and stored in Chroma.
 
-**When you ask a question**
+**When you search your documents**
 1. The top 10 text chunks are retrieved by semantic search.
-2. The top 3 images are retrieved by encoding the question with CLIP's text encoder.
+2. The top 3 images are retrieved by encoding your query with CLIP's text encoder.
 3. The text and the images are sent to a vision model (Qwen2.5-VL by default). It decides which images are relevant, analyzes them and writes the answer.
 4. The UI shows the answer, the source snippets, and the relevant images (click an image to zoom).
 
@@ -96,7 +105,7 @@ retro-frontend option, set in `retro-frontend/.env`:
 | Method | Path | Body / params | Description |
 |---|---|---|---|
 | `POST` | `/upload` | form-data `file` (PDF) | Index a PDF's text, OCR text and images |
-| `POST` | `/query` | form-data `q`, `allowed_files` (comma-separated, optional) | Ask a question |
+| `POST` | `/query` | form-data `q`, `allowed_files` (comma-separated, optional) | Search the enabled documents and generate an answer |
 | `GET` | `/stats` | none | List indexed files |
 | `DELETE` | `/delete_document` | query `filename` | Remove a file from both stores |
 

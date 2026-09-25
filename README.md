@@ -2,8 +2,8 @@
 
 A multimodal RAG (retrieval-augmented generation) app for PDFs. Upload PDFs, ask questions, and get answers grounded in both the **text** and the **images** inside your documents.
 
-- **Frontend:** React 19 + Vite + Tailwind, with a retro-styled UI
-- **Backend:** FastAPI + Chroma + CLIP + Tesseract, answering with a vision-language model on OpenRouter
+- **retro-frontend:** React 19 + Vite + Tailwind, with a retro-styled UI
+- **retro-api:** FastAPI + Chroma + CLIP + Tesseract, answering with a vision-language model on OpenRouter
 
 ## How it works
 
@@ -32,14 +32,14 @@ Searches only cover the files that are **Enabled** in the sidebar.
   - Linux: `sudo apt install tesseract-ocr`
 - An [OpenRouter API key](https://openrouter.ai/keys)
 
-The first backend start downloads the embedding and CLIP models (about 1 GB) from Hugging Face.
+The first retro-api start downloads the embedding and CLIP models (about 1 GB) from Hugging Face.
 
 ## Setup
 
-### 1. Backend
+### 1. retro-api (backend)
 
 ```bash
-cd backend
+cd retro-api
 python -m venv venv
 # Windows
 venv\Scripts\activate
@@ -50,7 +50,7 @@ pip install -r requirements.txt
 cp .env.example .env        # Windows: copy .env.example .env
 ```
 
-Edit `backend/.env` and set `OPENROUTER_KEY`. Then start the server:
+Edit `retro-api/.env` and set `OPENROUTER_KEY`. Then start the server:
 
 ```bash
 python app.py
@@ -58,23 +58,23 @@ python app.py
 
 The API runs on http://localhost:8000. Interactive docs are at http://localhost:8000/docs.
 
-### 2. Frontend
+### 2. retro-frontend
 
 In a second terminal:
 
 ```bash
-cd frontend
+cd retro-frontend
 npm install
 npm run dev
 ```
 
 Open http://localhost:5173.
 
-If the backend isn't on `localhost:8000`, copy `frontend/.env.example` to `frontend/.env` and set `VITE_API_URL`.
+If retro-api isn't on `localhost:8000`, copy `retro-frontend/.env.example` to `retro-frontend/.env` and set `VITE_API_URL`.
 
 ## Configuration
 
-Backend options, set in `backend/.env`:
+retro-api options, set in `retro-api/.env`:
 
 | Variable | Default | Description |
 |---|---|---|
@@ -85,7 +85,7 @@ Backend options, set in `backend/.env`:
 | `CORS_ORIGINS` | `*` | Comma-separated list of allowed origins |
 | `HOST` / `PORT` | `0.0.0.0` / `8000` | Address the server binds to |
 
-Frontend option, set in `frontend/.env`:
+retro-frontend option, set in `retro-frontend/.env`:
 
 | Variable | Default |
 |---|---|
@@ -102,17 +102,17 @@ Frontend option, set in `frontend/.env`:
 
 ## Data
 
-Vector stores are saved in `backend/chroma_text_db/` and `backend/chroma_image_db/`. Neither is committed to git. To start fresh, delete both folders.
+Vector stores are saved in `retro-api/chroma_text_db/` and `retro-api/chroma_image_db/`. Neither is committed to git. To start fresh, delete both folders.
 
 ## Project structure
 
 ```
 RetroDoc/
-├── backend/
+├── retro-api/
 │   ├── app.py              # FastAPI app: ingestion, retrieval, LLM call
 │   ├── requirements.txt
 │   └── .env.example
-└── frontend/
+└── retro-frontend/
     ├── src/App.jsx         # UI
     ├── src/App.css         # retro styling
     └── .env.example

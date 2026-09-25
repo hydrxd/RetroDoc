@@ -33,7 +33,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-logger = logging.getLogger("multimodal-rag")
+logger = logging.getLogger("retro-api")
 
 # ------------------ Environment Setup ------------------
 load_dotenv()
@@ -181,7 +181,7 @@ async def ocr_image_async(image):
 
 
 # ------------------ FastAPI App Setup ------------------
-app = FastAPI()
+app = FastAPI(title="RetroDoc retro-api")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=os.getenv("CORS_ORIGINS", "*").split(","),

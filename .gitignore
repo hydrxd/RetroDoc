@@ -1,0 +1,24 @@
+# Secrets
+.env
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+env/
+
+# Local vector stores (your uploaded documents)
+backend/chroma_text_db/
+backend/chroma_image_db/
+
+# Node
+node_modules/
+dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

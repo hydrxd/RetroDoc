@@ -1,0 +1,52 @@
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-bg {
+  position: relative;
+  background-color: #000;
+  /* Solid black background */
+  z-index: 0;
+  /* Ensure pseudo-elements are behind content */
+}
+
+/* Gradient layer with 50% opacity */
+.animated-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(270deg, #4b0082, #8a2be2, #ff69b4, #ff1493);
+  background-size: 800% 800%;
+  animation: gradient 15s ease infinite;
+  opacity: 0.5;
+  /* 50% opacity */
+  z-index: -2;
+}
+
+/* Noise overlay */
+.animated-bg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+  opacity: 0.2;
+  /* Adjust noise intensity as needed */
+  z-index: -1;
+  pointer-events: none;
+}
